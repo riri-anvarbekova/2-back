@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#userCard div {
+  margin-bottom: 20px;
+}
+
+.news-card {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  overflow: hidden;
+}
+
+.news-card img {
+  width: 150px;
+  object-fit: cover;
+}
+
+.news-card div {
+  padding: 10px;
+}
