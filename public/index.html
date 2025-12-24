@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random User Info</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Random User Information</h1>
+    <button id="fetchUserBtn">Get Random User</button>
+  </header>
+
+  <main id="userContainer">
+
+  </main>
+
+  <script>
+    const btn = document.getElementById('fetchUserBtn');
+    const container = document.getElementById('userContainer');
+
+    btn.addEventListener('click', async () => {
+      container.innerHTML = '<p class="loading">Loading...</p>';
+      try {
+        const res = await fetch('/api/user');
+        const data = await res.json();
+
+        container.innerHTML = `
+          <section class="card">
+            <img class="profile-pic" src="${data.userInfo.profilePicture}" alt="Profile Picture">
+            <h2>${data.userInfo.firstName} ${data.userInfo.lastName}</h2>
+            <p><strong>Gender:</strong> ${data.userInfo.gender}</p>
+            <p><strong>Age:</strong> ${data.userInfo.age}</p>
+            <p><strong>Date of Birth:</strong> ${new Date(data.userInfo.dob).toLocaleDateString()}</p>
+            <p><strong>City:</strong> ${data.userInfo.city}</p>
+            <p><strong>Country:</strong> ${data.userInfo.country}</p>
+            <p><strong>Address:</strong> ${data.userInfo.fullAddress}</p>
+          </section>
+
+          <section class="card">
+            <img class="flag" src="${data.countryInfo.flag}" alt="Flag">
+            <h2>Country: ${data.countryInfo.name}</h2>
+            <p><strong>Capital:</strong> ${data.countryInfo.capital}</p>
+            <p><strong>Languages:</strong> ${data.countryInfo.languages}</p>
+            <p><strong>Currency:</strong> ${data.countryInfo.currency}</p>
+            <p><strong>Exchange Rates:</strong> 1 ${data.countryInfo.currency} = ${data.exchangeRates.USD} USD, ${data.exchangeRates.KZT} KZT</p>
+          </section>
+
+          <section class="card news-card">
+            <h2>News from ${data.userInfo.country}</h2>
+            ${data.news.length > 0 
+              ? data.news.map(n => `
+                  <div class="news-item">
+                    ${n.image ? `<img src="${n.image}" alt="News Image">` : ''}
+                    <h3>${n.title}</h3>
+                    <p>${n.description || ''}</p>
+                    <a href="${n.url}" target="_blank">Read more</a>
+                  </div>
+                `).join('')
+              : '<p>No news available</p>'
+            }
+          </section>
+        `;
+      } catch (err) {
+        container.innerHTML = '<p class="error">Error fetching data. Try again later.</p>';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
