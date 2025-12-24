@@ -109,7 +109,8 @@ Each article includes: title, image, description, and link to the full article.
 
 Returns an empty array if no news is found.
 
-/project-root
+
+/riri
 │
 ├─ server.js         # Main backend server
 ├─ core.js           # API logic and data processing
@@ -118,4 +119,5 @@ Returns an empty array if no news is found.
 └─ /public           # Frontend files
     ├─ index.html
     └─ style.css
+    
 This project shows how to use several APIs together to get interesting information about a random user. The app combines user data, country information, exchange rates, and news into one page
